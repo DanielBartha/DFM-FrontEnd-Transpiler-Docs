@@ -1,0 +1,29 @@
+site_name: Front End Transpiler Documentation
+site_description: 'Documentation of the front end transpiler tool used to generate modernized React/TypeScript code from the legacy Delphi and Object Pascal Languages, in the context of the 4FOOD ERP system.'
+site_author: 'Dezső-Dániel Bartha'
+docs_dir: docs
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+
+copyright: <h3><i>2026 Estrategy All Rights Reserved</i></h3>
+
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - json
+
+nav:
+  - Home: index.md
+  - Grammar Design:
+    - Introduction: gd-intro.md
+    - Design Initiation: gd-init.md
+    - Matching Floating-Point Numbers: gd-floats.md
+    - Matching Comments and Whitespace: gd-comments-whitespace.md
+    - Refining the Grammar: gd-refine.md
+  - Parsing a DFM: dfm-parsing.md
+plugins:
+  - search
