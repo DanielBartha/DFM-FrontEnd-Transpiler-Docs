@@ -60,7 +60,7 @@ Replace `4.x` with the downloaded version.
 
 **Notice**: we will be assuming that the reader is using the same aliases as the ones specified above.
 
-### Let's Parse!
+## Let's Parse!
 
 Now that the setup is complete, the time has come to parse some DFM code.
 
@@ -76,7 +76,7 @@ Next, we generate the lexer and parser using *ANTLR*:
 
 Output:
 
-```shell
+```bash
 ls
 
 DelphiDFMBaseListener.java  
@@ -96,7 +96,7 @@ Great! The next step is to compile all `.java` files generated, like so:
 
 Now we get the compiled files:
 
-```shell
+```bash
 ls
 
 DelphiDFMBaseListener.class  
@@ -130,7 +130,7 @@ Aha! Now we can see our parser rules as well.
 The only thing we are missing is a test file that we should parse. The DFM file below was conceived to test all rules we previously defined in our grammar:
 
 `../dir/test.dfm`
-```
+```ini
 inherited frmActions: TfrmActions
     Tag = 3
     Caption = 'hello'
@@ -200,7 +200,7 @@ We use the command:
 
 And our output:
 
-```shell
+```bash
 [@0,0:8='inherited',<'inherited'>,1:0]
 [@1,10:19='frmActions',<ID>,1:10]
 [@2,20:20=':',<':'>,1:20]
@@ -262,9 +262,9 @@ So what if we want to see our parse tree? Let's see the command for that:
 
 ```grun DelphiDFM file -tree test.dfm```
 
-And our output...
+And our output:
 
-```shell
+```ini
 (file 
     (block inherited frmActions : TfrmActions 
         (propertyBlock Tag = (value 3)) 
@@ -331,13 +331,15 @@ And our output...
 <EOF>)
 ```
 
-**Note:** The output above was manually modified with newlines for readability purposes, to ultimately demonstrate the presence of hierarchy. The real output is actually a continuous line, and looks like this:
+<span style="color:red">NOTE:</span> The output above was manually modified with newlines for readability purposes, to ultimately demonstrate the presence of hierarchy. 
 
-```shell
+The real output is actually a continuous line, and looks like this:
+
+```ini
 (file (block inherited frmActions : TfrmActions (propertyBlock Tag = (value 3)) (propertyBlock Caption = (value 'hello')) (block inherited pnlTitle : TfrmTitleBar (propertyBlock Color = (value clWhite)) (propertyBlock ParentBackground = (value False)) end) (block inherited pnlError : TfrmError (block inherited lblMessage : TcxLabel (propertyBlock AnchorY = (value -18)) (propertyBlock FloatAnchorY = (value 18.7283)) end) end) (block object gvListUser : TcxGridDBColumn (propertyBlock Caption = (value 'Test')) (propertyBlock DataBinding.FieldName = (value 'TestUser')) (propertyBlock Properties.ListColumns = (value (methodLS < (item item (propertyBlock FieldName = (value 'fullName')) (propertyBlock Fixed = (value True)) (propertyBlock Width = (value 100)) end) >))) (propertyBlock Properties.Alignment.Vert = (value taVCencter)) (propertyBlock Height = (value 20)) (propertyBlock Properties.DateButtons = (value [btnToday])) end) (block object testItemHchy : TestItemHchy (propertyBlock Properties.ListColumns = (value (methodLS < (item item (propertyBlock Fixed = (value True)) (propertyBlock Width = (value 80)) end) (item item (propertyBlock Width = (value 200)) (propertyBlock FieldName = (value 'testing')) end) >))) (propertyBlock Width = (value 282)) end) (block inherited testFields : TestFields (propertyBlock Indexes = (value (methodLS < >))) (propertyBlock SortOptions = (value [])) (propertyBlock OtherSortOptions = (value [test1, test2, test3])) end) (block inherited testMultipleInheritance : TestMultipleInheritance (block inherited inhOne : InhOne (block inherited inhTwo : InhTwo (block inherited inhThree : InhThree (block object deepObj : DeepObj (propertyBlock Height = (value 10)) (propertyBlock Width = (value 20)) (propertyBlock Top = (value 30)) end) end) end) end) end) end) <EOF>)
 ```
 
-This is the real output. Its contents are the same as the edited example preceding it, and still identifies hierarchy correctly -> **notice** the `end` closures at the end of the output.
+Its contents are the same as the edited example preceding it, and still identifies hierarchy correctly; **notice** the `end` closures at the end of the output.
 
 ### Tree Visualization
 
@@ -367,7 +369,7 @@ A neat feature of *ANTLR* is that it will identify missing tokens for us, which 
 
 For example, we introduced two errors in our `test.dfm` pseudo-code, by removing the colon from the inherited object `testFields`, and the closing array bracket in `OtherSortOptions`:
 
-```
+```ini
 ...
 
 inherited testFields TestFields
@@ -387,7 +389,7 @@ Let's see what happens if we output a parse tree using the `-gui` command:
 
 We also get the following output in our terminal:
 
-```shell
+```bash
 line 42:27 token recognition error at: '[test1, test2, test3\n    end\n    inherited testMultipleInheritance: TestMultipleInheritance\n        inherited inhOne: InhOne\n            inherited inhTwo: InhTwo\n                inherited inhThree: InhThree\n                    object deepObj: DeepObj\n                        Height = 10\n                        Width = 20\n                        Top = 30\n                    end\n                end\n            end\n        end\n    end\nend'
 line 39:25 missing ':' at 'TestFields'
 line 57:3 mismatched input '<EOF>' expecting {'<', ARRAY, ID, FLOAT, INT, STRING}
@@ -399,7 +401,7 @@ This becomes highly useful since we have multpiple ways of identifying issues. N
 
 If the grammar file is modified (in our case `DelphiDFM.g4`), it's always necessary to regenerate and recompile from scratch to avoid stale `.class` files:
 
-```shell
+```
 rm *.java *.class *.tokens *.interp
 
 antlr4 DelphiDFM.g4
