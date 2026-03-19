@@ -142,7 +142,7 @@ WS               : [ \t\r\n]+ -&gt; skip ;
 <p>First, we recognize that in essence, DFM files are composed of blocks containing all set properties, component positions/dimensions, event handlers, etc. Therefore, our <em>file</em> needs to contain at least one or more of these blocks, through <code>block+ EOF</code>. By including <code>EOF</code> (End of File), we explicitly specify that we want to parse the entire file. Omitting <code>EOF</code> would mean that it is acceptable to only parse a portion of the input.</p>
 <p><strong>Note</strong>: The <code>EOF</code> rule means "Parse as many <em>block</em> elements as possible, and then stop." In other words, this rule will never attempt to recover from a syntax error because it will always assume that the syntax error is part of some syntactic construct that's beyond the scope of the <em>file</em> rule. Syntax errors will not even be reported, because the parser will simply stop. </p>
 <h4 id="block-rule">Block Rule</h4>
-<p>Since DFM blocks can start with one of two options (<em>inherited</em> or <em>object</em>), we specify a choice for the parser to opt for one. Either of the options, always continues with a string, followed by a column, followed by another string.</p>
+<p>Since DFM blocks can start with one of two options (<em>inherited</em> or <em>object</em>), we specify a choice for the parser to opt for one. Either of the options, always continues with a string, followed by a colon, followed by another string.</p>
 <p>Then, we have two optional parser rules. Meaning that no matter what there <em>could be</em> a block of properties or additionall block(s) following. By including <em>block*</em> we can account for nested statements. Finally, we conlude a <code>block</code> by specifying <code>end</code>, which is our reserved rule defined in the lexer rules. Hence, all blocks in DFM files conclude with an <em>end</em> specifier.</p>
 <h4 id="the-property-block">The Property Block</h4>
 <p>All property assignments in DFM files are separated by the <code>=</code> operator so we have an easy time parsing those. To simplify parsing them, we assign a value to a choice of either an <code>ID</code> or a <code>METHOD</code>. In the lexer rules, we classify <code>METHOD</code> as having two or more strings concatenated by a <strong>dot</strong>.</p>
@@ -168,7 +168,7 @@ WS               : [ \t\r\n]+ -&gt; skip ;
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p><h3><i>2026 Estrategy All Rights Reserved</i></h3></p>
+      <p><h3><i>Copyright 2026 Estrategy© All Rights Reserved</i></h3></p>
   </div>
 
   Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
