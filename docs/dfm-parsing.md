@@ -264,7 +264,7 @@ So what if we want to see our parse tree? Let's see the command for that:
 
 And our output:
 
-```ini
+```yaml
 (file 
     (block inherited frmActions : TfrmActions 
         (propertyBlock Tag = (value 3)) 
