@@ -25,7 +25,11 @@ nav:
     - Matching Comments and Whitespace: gd-comments-whitespace.md
     - Refining the Grammar: gd-refine.md
   - Parsing:
+    - Introduction: parsing-intro.md
+    - ANTLR4 Setup: antlr-setup.md
     - DFM Code Parsing: dfm-parsing.md
+    - Parse Trees in ANTLR: trees.md
+    - Additional Features: features.md
   - Steps Towards Transpiling:
     - From Parse Trees to Abstract Syntax Trees: cst-to-ast.md
 plugins:
