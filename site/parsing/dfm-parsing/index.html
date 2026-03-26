@@ -4,21 +4,21 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Dezső-Dániel Bartha" />
-      <link rel="shortcut icon" href="../img/favicon.ico" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
     <title>DFM Code Parsing - Front End Transpiler Documentation</title>
-    <link rel="stylesheet" href="../css/theme.css" />
-    <link rel="stylesheet" href="../css/theme_extra.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
         var mkdocs_page_name = "DFM Code Parsing";
-        var mkdocs_page_input_path = "dfm-parsing.md";
+        var mkdocs_page_input_path = "parsing/dfm-parsing.md";
         var mkdocs_page_url = null;
       </script>
     
     <!--[if lt IE 9]>
-      <script src="../js/html5shiv.min.js"></script>
+      <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
@@ -31,9 +31,9 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href=".." class="icon icon-home"> Front End Transpiler Documentation
+          <a href="../.." class="icon icon-home"> Front End Transpiler Documentation
         </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -41,20 +41,20 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                <li class="toctree-l1"><a class="reference internal" href="../../home/">Home</a>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Grammar Design</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-intro/">Introduction</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-init/">Design Initiation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-init/">Design Initiation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-floats/">Matching Floating-Point Numbers</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-comments-whitespace/">Matching Comments and Whitespace</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-refine/">Refining the Grammar</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-refine/">Refining the Grammar</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Parsing</span></p>
@@ -66,12 +66,10 @@
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">DFM Code Parsing</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#test-against-a-dfm-file">Test Against a DFM File</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#token-testing">Token Testing</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#token-decomposition">Token Decomposition</a>
     </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#token-testing">Token Testing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#token-decomposition">Token Decomposition</a>
     </li>
         </ul>
     </li>
@@ -84,7 +82,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Steps Towards Transpiling</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../cst-to-ast/">From Parse Trees to Abstract Syntax Trees</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../transpiling/cst-to-ast/">From Parse Trees to Abstract Syntax Trees</a>
                   </li>
               </ul>
       </div>
@@ -94,13 +92,13 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="..">Front End Transpiler Documentation</a>
+          <a href="../..">Front End Transpiler Documentation</a>
         
       </nav>
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Parsing</li>
       <li class="breadcrumb-item active">DFM Code Parsing</li>
     <li class="wy-breadcrumbs-aside">
@@ -219,8 +217,8 @@ DelphiDFMListener.java
     end
 end
 </code></pre>
-<h3 id="token-testing">Token Testing</h3>
-<p>Now we have all necessary components. First, let's take a look at all identified tokens from our <code>test.dfm</code> file. We use <code>grun</code>, which is the alias for <em>ANTLR's</em> testing rig: <code>org.antlr.v4.gui.TestRig</code>.</p>
+<h2 id="token-testing">Token Testing</h2>
+<p>Now we have all necessary components. First, let's take a look at all identified tokens from our <code>test.dfm</code> file. We use <code>grun</code>, which is our alias for <em>ANTLR's</em> testing rig: <code>org.antlr.v4.gui.TestRig</code>.</p>
 <p>We use the command:</p>
 <p><code>grun DelphiDFM file -tokens test.dfm</code></p>
 <p>And our output:</p>
@@ -257,13 +255,16 @@ end
 [@30,263:263='=',&lt;'='&gt;,10:20]
 [@31,265:267='-18',&lt;INT&gt;,10:22]
 [@32,281:292='FloatAnchorY',&lt;ID&gt;,11:12]
+[@33,294:294='=',&lt;'='&gt;,11:25]
+[@34,296:302='18.7283',&lt;FLOAT&gt;,11:27]
+[@35,312:314='end',&lt;'end'&gt;,12:8]
 
 ...
 
 </code></pre>
 <p>Continued further until all tokens are consumed.</p>
 <p><strong>Note</strong> that in our given command, <code>file</code> specifies the rule that needs to contain our input.</p>
-<h5 id="token-decomposition">Token Decomposition</h5>
+<h3 id="token-decomposition">Token Decomposition</h3>
 <p>Now we can see an output of all identified tokens from our test file. Let's decompose a token so we understand how they are built. For instance, our second token:</p>
 <p><code>[@1,10:19='frmActions',&lt;ID&gt;,1:10]</code></p>
 <p>Each line of the output represents a single token and shows everything we know about the token: </p>
@@ -311,11 +312,11 @@ end
     
   </span>
 </div>
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "..";</script>
-    <script src="../js/theme_extra.js"></script>
-    <script src="../js/theme.js"></script>
-      <script src="../search/main.js"></script>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
     <script>
         jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);

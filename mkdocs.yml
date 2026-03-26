@@ -17,7 +17,7 @@ theme:
     - json
 
 nav:
-  - Home: home/index.md
+  - Home: index.md
   - Grammar Design:
     - Introduction: grammar-creation/gd-intro.md
     - Design Initiation: grammar-creation/gd-init.md
