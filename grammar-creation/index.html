@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Dezső-Dániel Bartha" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Introduction - Front End Transpiler Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_input_path = "grammar-creation/index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Front End Transpiler Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Grammar Design</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#foreword">Foreword</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#sources">Sources</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="gd-init/">Design Initiation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="gd-floats/">Matching Floating-Point Numbers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="gd-refine/">Refining the Grammar</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Parsing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing/antlr-setup/">ANTLR4 Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing/dfm-parsing/">DFM Code Parsing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing/trees/">Parse Trees in ANTLR</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing/features/">Additional Features</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Steps Towards Transpiling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../transpiling/">From Parse Trees to Abstract Syntax Trees</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Front End Transpiler Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Grammar Design</li>
+      <li class="breadcrumb-item active">Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="designing-the-dfm-grammar">Designing the DFM Grammar</h1>
+<p>This chapter outlines the components and rules that need to be followed when desgning an ANTLR-specific grammar for Delphi DFM files. It teaches the reader to write ANTLR- and DFM-specific grammar, but also covers the fundamentals needed to wirte any language grammar (useful in case of extensions). The chapter concludes with providing a ready-to-use Delphi DFM grammar, which leverages the concepts detailed in previous sections.</p>
+<h2 id="foreword">Foreword</h2>
+<p>Everything described in this documentation overall, is specifically tailored to <strong>ANTLRv4</strong>. Using previous versions of ANTLR would result in several major issues.</p>
+<p>The grammar creation exemplified in this chapter is specifically designed with the <a href="https://www.4foodsoftware.com">4FOOD ERP</a> system in mind, property of <a href="https://www.estrategysoftware.com">Estrategy</a>. Although most concepts regarding grammar creation truthfully appply, this documentation and all examples provided are specifically designed with DFM files in mind.</p>
+<p>This document assumes familiarity with the general concept of lexers, parsers, grammars, parsing algorithms and methods, and some ANTLR-specific syntax. Knowledge on <em>ANTLR4</em> features is not necessarily a prerequisite, as the essential ones are detailed throughout this documentation. However, we strongly recommend taking an overview on <em>ANTLR's</em> full feature list (check for sources below).</p>
+<p><em>ANTLRv4</em> relies on the <strong>LL(k)</strong> parsing algorithm, which is a highly suitable for parsing DFM files. This documentation does not delve into such levels of granularity as parsing algorithms. If the reader wishes to understand <em>ANTLR's</em> inner workings, which also substantiate its usage for DFM parsing, we recommend the sources at the end of this section.</p>
+<p>The examples provided throughout the document build upon each other. Therefore, it is necessary to understand them for the purpose of contextualizing and informing on all decisions taken.</p>
+<h3 id="sources">Sources</h3>
+<p>In case further context is needed, and the reader would like to delve deeper on the concepts and topics presented throughout this documentation, we highly recommend the following sources:</p>
+<ul>
+<li><a href="https://www.antlr.org/index.html">ANTLR Main Page</a></li>
+<li><a href="https://github.com/antlr/antlr4/blob/master/doc/index.md">ANTLR4 GitHub Documentation</a></li>
+<li><a href="https://pragprog.com/titles/tpantlr2/the-definitive-antlr-4-reference/">The Definitive ANTLR 4 Reference</a></li>
+<li><a href="https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/">Stanford University - CS143 Compilers</a></li>
+<li><a href="https://repository.unikom.ac.id/48769/1/Compilers%20-%20Principles,%20Techniques,%20and%20Tools%20(2006).pdf">"The Dragon Book" - Compilers: Principles, Techniques, and Tools</a></li>
+<li><a href="https://en.wikipedia.org/wiki/LL_parser#:~:text=The%20LL(k)%20parser%20is,alphabet%20are%20finite%20in%20size.">Parsing Algorithms and LL(k)</a></li>
+<li><a href="https://docwiki.embarcadero.com/RADStudio/Athens/en/Delphi_Language_Reference">Delphi Language Reference</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="gd-init/" class="btn btn-neutral float-right" title="Design Initiation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p><h3><i>Copyright 2026 Estrategy© All Rights Reserved</i></h3></p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="gd-init/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

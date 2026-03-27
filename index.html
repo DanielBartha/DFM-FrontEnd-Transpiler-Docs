@@ -48,20 +48,20 @@
               </ul>
               <p class="caption"><span class="caption-text">Grammar Design</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="grammar-creation/">Introduction</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-init/">Design Initiation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="grammar-creation/gd-refine/">Refining the Grammar</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Parsing</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="parsing/parsing-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="parsing/">Introduction</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="parsing/antlr-setup/">ANTLR4 Setup</a>
                   </li>
@@ -74,7 +74,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Steps Towards Transpiling</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="transpiling/cst-to-ast/">From Parse Trees to Abstract Syntax Trees</a>
+                  <li class="toctree-l1"><a class="reference internal" href="transpiling/">From Parse Trees to Abstract Syntax Trees</a>
                   </li>
               </ul>
       </div>
@@ -101,15 +101,17 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="delphi-front-end-transpiler">Delphi Front End Transpiler</h1>
-<p>This documentation delves into all aspects of the front end transpiler tool. </p>
-<p>It starts with parsing Delphi VCL components, represented by the <code>.dfm</code> files. Going into details of designing the DFM grammar, which provides a solid foundation and informs the reader on techniques used for expanding said grammar, if necessary in the future.</p>
-<p>Once the foundations have been established, a refined and ready-to-use DFM grammar will be looked at, and will be parsed using <strong>ANTLR4</strong> in later sections.</p>
-<p>To be continued after further developments...</p>
+<p>This documentation delves into all aspects of the front end transpiler tool, used for translating legacy Delphi DFM files into moder React/TypeScript code. </p>
+<p>It starts with parsing Delphi VCL components, represented by the <code>.dfm</code> files. Going into details of designing the DFM grammar, which provide a solid foundation and inform the reader on techniques used for expanding said grammar (if necessary in the future).</p>
+<p>Once the foundations have been established, a refined and ready-to-use DFM grammar will be looked at, and will be parsed using <strong>ANTLR4</strong> in later sections. The foundation of this project <em>is</em> <strong>ANTLRv4</strong>, therefore it's setup and usage are also elaborated upon, in great detail. </p>
+<p>The transpiler tool will leverage <em>Abstract Syntax Trees (AST)</em> of the legacy code, and translate them into modern intermediate models of the same level. For this, the documentation delves into implementing <em>AST</em> generation from the created DFM grammar (of previous sections), to ultimately be used as reference in generating a modern React/TypeScript <em>AST</em>.</p>
+<p>In concordance with the <em>AST generation</em> chapter, sections elaborating transformation rules will assimilate into it, as essential design decisions.</p>
+<p><strong>To be continued after further developments...</strong></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="grammar-creation/gd-intro/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="grammar-creation/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -134,7 +136,7 @@
     
     
     
-      <span><a href="grammar-creation/gd-intro/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="grammar-creation/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -154,5 +156,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-03-26 15:04:47.270158+00:00
+Build Date UTC : 2026-03-27 09:49:30.361427+00:00
 -->
