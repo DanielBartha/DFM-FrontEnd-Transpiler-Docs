@@ -4,13 +4,15 @@ This chapter outlines the components and rules that need to be followed when des
 
 ## Foreword
 
-Everything described in this documentation overall, is specifically tailored to **ANTLRv4**. Using previous versions of ANTLR would result in several major issues.
+Everything related to parsing, is specifically tailored to **ANTLRv4**. Using previous versions of ANTLR would result in several major issues.
 
 The grammar creation exemplified in this chapter is specifically designed with the [4FOOD ERP](https://www.4foodsoftware.com) system in mind, property of [Estrategy](https://www.estrategysoftware.com). Although most concepts regarding grammar creation truthfully appply, this documentation and all examples provided are specifically designed with DFM files in mind.
 
-This document assumes familiarity with the general concept of lexers, parsers, grammars, parsing algorithms and methods, and some ANTLR-specific syntax. Knowledge on *ANTLR4* features is not necessarily a prerequisite, as the essential ones are detailed throughout this documentation. However, we strongly recommend taking an overview on *ANTLR's* full feature list (check for sources below).
+The transpiler build detailed in this documentation, is solely based on a specific representative subset of the [4FOOD ERP](https://www.4foodsoftware.com) codebase.
 
-*ANTLRv4* relies on the **LL(k)** parsing algorithm, which is a highly suitable for parsing DFM files. This documentation does not delve into such levels of granularity as parsing algorithms. If the reader wishes to understand *ANTLR's* inner workings, which also substantiate its usage for DFM parsing, we recommend the sources at the end of this section.
+This document assumes familiarity with the general concept of lexers, parsers, grammars, parsing algorithms and methods, and some ANTLR-specific syntax. Knowledge on *ANTLR4* features is not necessarily a prerequisite, as the essential concepts are detailed throughout this documentation. However, we strongly recommend taking an overview on *ANTLR's* full feature list (check for sources below).
+
+*ANTLRv4* relies on the **LL(k)** parsing algorithm, which is a highly suitable for parsing DFM files. This documentation does not delve into the levels of granularity of parsing algorithms. Therefore, if the reader wishes to understand *ANTLR's* inner workings, which also substantiate its usage for DFM parsing, we recommend the sources included at the end of this page.
 
 The examples provided throughout the document build upon each other. Therefore, it is necessary to understand them for the purpose of contextualizing and informing on all decisions taken.
 

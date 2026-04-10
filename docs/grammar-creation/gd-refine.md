@@ -73,9 +73,9 @@ First, we recognize that in essence, DFM files are composed of blocks containing
 
 ### Block Rule
 
-Since DFM blocks can start with one of two options (*inherited* or *object*), we specify a choice for the parser to opt for one. Either of the options, always continues with a string, followed by a colon, followed by another string.
+Since DFM blocks can start with one of two options (for now): *inherited* or *object*, we specify a choice for the parser to opt for one. Either of the options, always continues with a string, followed by a colon, followed by another string.
 
-Then, we follow it up with two optional parser rules. Meaning, that there *could be zero-or-more* blocks of properties or additional blocks following. By including `block*`, we are accounting for nested elements. 
+Then, we follow it up with two optional parser rules. Meaning that, there *could be zero-or-more* blocks of properties or additional blocks following. By including `block*`, we are accounting for nested elements. 
 
 Finally, we conlude a `block` parser rule, by specifying `end`, which is our reserved rule defined in the lexer rules. Hence, all blocks in DFM files conclude with an *end* specifier.
 

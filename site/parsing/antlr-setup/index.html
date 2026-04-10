@@ -41,25 +41,25 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../home/">Home</a>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Grammar Design</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/">Introduction</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-init/">Design Initiation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-refine/">Refining the Grammar</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Parsing</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../parsing-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">ANTLR4 Setup</a>
     <ul class="current">
@@ -84,7 +84,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Steps Towards Transpiling</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../transpiling/cst-to-ast/">From Parse Trees to Abstract Syntax Trees</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../transpiling/">From Parse Trees to Abstract Syntax Trees</a>
                   </li>
               </ul>
       </div>
@@ -112,8 +112,8 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="setting-up-antlrv4">Setting up ANTLRv4</h1>
-<p>For parsing a DFM file with our grammar, we will first need to set up <em>ANTLR</em>, its classpath, and some aliases (optionally).</p>
-<h3 id="prerequisites">Prerequisites</h3>
+<p>For parsing a DFM file with our grammar, we will first need to set up <em>ANTLR</em>, its classpath, and some aliases (optional, but heavily recommended).</p>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><a href="https://www.oracle.com/java/technologies/downloads/#jdk26-windows">Java JDK</a> (latest but earlier versions should work) </li>
 <li><a href="https://www.antlr.org/download.html">ANTLRv4 complete jar</a></li>
@@ -123,7 +123,7 @@
 # check latest version (at the time of writing this documentation 4.13.2 is the latest)
 $ curl -O http://www.antlr.org/download/antlr-4.13.2-complete.jar
 </code></pre>
-<h3 id="instructions">Instructions</h3>
+<h2 id="instructions">Instructions</h2>
 <ol>
 <li>Copy the downloaded tool where usually third-party java libraries live (up to preference); Example: <code>/usr/local/lib</code> or <code>C:\Program Files\Java\libs</code></li>
 <li>Add tool to <code>CLASSPATH</code> and to startup script (Example: <code>.bash_profile</code>)</li>
@@ -155,13 +155,13 @@ java org.antlr.v4.gui.TestRig %*
 # put them in the system PATH or any of the directories included in PATH
 </code></pre>
 <p>Replace <code>4.x</code> with the downloaded version.</p>
-<p><strong>Notice</strong>: we will be assuming that the reader is using the same aliases as the ones specified above.</p>
+<p><strong>Notice</strong>: we will be assuming that the reader is using the same aliases as the ones specified here.</p>
 <p>In the following section, we will utilize our refined grammar to parse a <code>.dfm</code> test file. We will show how the generated parser is built up, and output some tokens.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../parsing-intro/" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../dfm-parsing/" class="btn btn-neutral float-right" title="DFM Code Parsing">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -186,7 +186,7 @@ java org.antlr.v4.gui.TestRig %*
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../parsing-intro/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../dfm-parsing/" style="color: #fcfcfc">Next &raquo;</a></span>

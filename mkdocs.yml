@@ -30,7 +30,8 @@ nav:
     - DFM Code Parsing: parsing/dfm-parsing.md
     - Parse Trees in ANTLR: parsing/trees.md
     - Additional Features: parsing/features.md
-  - Steps Towards Transpiling:
-    - From Parse Trees to Abstract Syntax Trees: transpiling/index.md
+  - Abstract Syntax Tree Generation:
+    - Parse Trees vs. Abstract Syntax Trees: ast-gen/index.md
+    - AST Building: ast-gen/ast-building-intro.md
 plugins:
   - search

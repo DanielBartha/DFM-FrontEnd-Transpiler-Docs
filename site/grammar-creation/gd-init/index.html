@@ -41,27 +41,27 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../home/">Home</a>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Grammar Design</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Design Initiation</a>
     <ul class="current">
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../gd-floats/">Matching Floating-Point Numbers</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../gd-floats/">Matching Floating-Point Numbers</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../gd-refine/">Refining the Grammar</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Parsing</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/parsing-intro/">Introduction</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/">Introduction</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../parsing/antlr-setup/">ANTLR4 Setup</a>
                   </li>
@@ -74,7 +74,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Steps Towards Transpiling</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../transpiling/cst-to-ast/">From Parse Trees to Abstract Syntax Trees</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../transpiling/">From Parse Trees to Abstract Syntax Trees</a>
                   </li>
               </ul>
       </div>
@@ -101,11 +101,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="design-initiation">Design Initiation</h2>
+                <h1 id="abstract-language-components">Abstract Language Components</h1>
+<p>The first step in writing a language grammar, is to understand the abstract components any grammar is composed of (in general).</p>
+<ul>
+<li><code>Sequence</code>: of elements such as values in array.</li>
+<li><code>Choice</code>: between multiple, alternative phrases (such as different kinds of statements in language).</li>
+<li><code>Token dependence</code>.</li>
+<li><code>Nested phrase</code>: self-similar language construct (ex. aithmentic expression or nested statement blocks in language).</li>
+</ul>
+<h1 id="design-initiation">Design Initiation</h1>
 <p>Considering top-down parsing, we start from the coarsest elements and descend in levels of granularity. Designing starts with natural language. Ergo, the formal definition of Delphi VCL <code>.dfm</code> files.</p>
 <p><strong>Formal Definition</strong> - Delphi Form Module files are proprietary file formats which store the properties, attributes and component layouts of forms, frames, and data modules.</p>
-<p>The keyword here is <strong>FILE(S)</strong>.
-Ergo, <em>file</em> becomes the <strong>RULE NAME</strong>.</p>
+<p>The keyword here is <strong>FILE(S)</strong>. Thus, we specify <em>file</em> as our entry point, becoming the <strong>RULE NAME</strong>.</p>
 <pre><code class="language-yaml">file : «sequence of component elements that are terminated by newlines» ;
 </code></pre>
 <p>Then, we step down a level in granularity by describing elements identified on the right side of the start rule. Typically, references to either tokens or yet-to-be-defined rules.</p>
@@ -133,34 +140,24 @@ INT : [0-9]+ ;
 ID : [a-zA-Z]+ ;
 STRING : '\'' .*? '\'' ;    // STRING reads as anything between single quotes
 </code></pre>
-<p>Continuing until no further rules can be defined.</p>
+<p>Continuing until no further rules can be defined. Or until the first valid iteration is developed.</p>
 <p><strong>Notes</strong></p>
 <ul>
-<li>
-<p>grammars always start with a grammar header. In our case, the grammar is called <code>DelphiDFM</code>, and must match the file name: <code>DelphiDFM.g4</code>.</p>
-</li>
-<li>
-<p>the <code>+</code> in <code>INT</code> and <code>ID</code> above, represent an ANTLR specific subrule which describes an arbitrarily long sequence. Essentially means to encode a sequence of one or more elements.</p>
-</li>
-<li>
-<p>the zero-or-more operator <code>*</code> specifies that a list can be empty. Example: <code>INT*</code>. This operator is analogous to a loop in programming languages, ANTLR-generated parsers implement them in this way as well.</p>
-</li>
-<li>
-<p>the alternative operator <code>|</code> specifies alternative options of non-terminals and terminals.</p>
-</li>
-<li>
-<p>the <code>?</code> subrule is a special zero-or-one sequence, and specifies optional constructs. For instance, <code>given a token 'x', if 'x?' then match 'x' or skip it</code>.</p>
-</li>
-<li>
-<p>single quotes in ANTLR are reserved, therefore they need to be escaped like so: <code>'\''</code>.</p>
-</li>
-<li>
-<p>ANTLR resolves potential ambiguity between lexical rules by favoring the rule <em>specified first</em>. Take the following example:</p>
-</li>
+<li>Grammars always start with a grammar header. In our case, the grammar is called <code>DelphiDFM</code>, and must match the file name: <code>DelphiDFM.g4</code>.</li>
+<li><em>ANTLRv4</em> allows parser and lexer rules to exist in the same <code>.g4</code> file, as opposed to previous versions.</li>
+<li>The <code>+</code> in <code>INT</code> and <code>ID</code> above, represent an ANTLR specific subrule which describes an arbitrarily long sequence. Essentially means to encode a sequence of one or more elements.</li>
+<li>The zero-or-more operator <code>*</code> specifies that a list can be empty. Example: <code>INT*</code>. This operator is analogous to a loop in programming languages, ANTLR-generated parsers implement them in this way as well.</li>
+<li>The alternative operator <code>|</code> specifies alternative options of non-terminals and terminals.</li>
+<li>The <code>?</code> subrule is a special zero-or-one sequence, and specifies optional constructs. For instance, <code>given a token 'x', if 'x?' then match 'x' or skip it</code>.</li>
+<li>Single quotes in ANTLR are reserved, therefore they need to be escaped like so: <code>'\''</code>.</li>
 </ul>
+<h1 id="the-ambiguity-conflict">The Ambiguity Conflict</h1>
+<p><em>ANTLRv4</em> resolves ambiguity conflicts between lexical rules by favoring the rule <strong>specified first</strong>. </p>
+<p>In the example below, <code>FOR</code> can be evaluated using <code>ID</code> as well. Thus, we have an ambiguity conflict due to order of precedence. In this case, the literal <em>for</em> will be tokenized as <code>ID</code> first, instead of the desired <code>FOR</code>: </p>
 <p><code>../../AmbiguousDelphiDFM.g4</code></p>
 <pre><code class="language-yaml">grammar AmbiguousDelphiDFM ;
 
+// Parser Rules
 file : functionDeclaration | FOR | ... ;
 functionDeclaration : 'for' ;
 
@@ -171,9 +168,10 @@ ID  : [a-zA-Z]+ ;
 FOR : 'for' ;
 
 ...
+
 </code></pre>
-<p>In the example above, since <code>FOR</code> can be evaluated using <code>ID</code> as well, we have an ambiguity conflict. The correct solution is to specify rules in order of precedence:</p>
-<pre><code class="language-yaml">grammar NoLongerAmbiguousDelphiDFM ;
+<p>The suitable solution, is to specify rules with correct order of precedence:</p>
+<pre><code class="language-yaml">grammar Non-AmbiguousDelphiDFM ;
 
 file : functionDeclaration | FOR | ... ;
 functionDeclaration : 'for' ;
@@ -185,14 +183,15 @@ FOR : 'for' ;
 ID  : [a-zA-Z]+ ;
 
 ...
+
 </code></pre>
 <p>This way, the literal <em>for</em> will always be tokenized as <code>FOR</code>, and never as <code>ID</code> in the grammar.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../gd-intro/" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../gd-floats/" class="btn btn-neutral float-right" title="Matching Floating-Point Numbers">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../gd-comments-whitespace/" class="btn btn-neutral float-right" title="Matching Comments and Whitespace">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -216,10 +215,10 @@ ID  : [a-zA-Z]+ ;
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../gd-intro/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../gd-floats/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../gd-comments-whitespace/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

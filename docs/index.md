@@ -6,7 +6,7 @@ It starts with parsing Delphi VCL components, represented by the `.dfm` files. G
 
 Once the foundations have been established, a refined and ready-to-use DFM grammar will be looked at, and will be parsed using **ANTLR4** in later sections. The foundation of this project *is* **ANTLRv4**, therefore it's setup and usage are also elaborated upon, in great detail. 
 
-The transpiler tool will leverage *Abstract Syntax Trees (AST)* of the legacy code, and translate them into modern intermediate models of the same level. For this, the documentation delves into implementing *AST* generation from the created DFM grammar (of previous sections), to ultimately be used as reference in generating a modern React/TypeScript *AST*.
+The transpiler tool leverages *Abstract Syntax Trees (AST)* of the legacy code, to translate them into modern intermediate models of the same level. For this, the documentation delves into implementing *AST* generation, based on a DFM grammar, to ultimately be used as reference in generating a modern React/TypeScript *AST*.
 
 In concordance with the *AST generation* chapter, sections elaborating transformation rules will assimilate into it, as essential design decisions.
 

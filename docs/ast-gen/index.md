@@ -1,8 +1,8 @@
 # CST to AST in ANTLR4
 
-The main goal is to modernize the legacy DFM front end code into modern React/TypeScript alternatives. To achieve this, we will need to convert our parse trees into abstract syntax trees.
+The main goal is to modernize the legacy DFM front end code into modern React/TypeScript alternatives. To achieve this, we will need to convert our parse trees into abstract syntax trees, for efficient translations from source and target ASTs.
 
-First, let's understand the difference between the two tree formats.
+First, it's important to understand the distinction between the two tree formats.
 
 ### Parse Tree (Concrete Syntax Tree)
 
