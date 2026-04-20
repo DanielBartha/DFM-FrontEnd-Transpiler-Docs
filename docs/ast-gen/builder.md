@@ -1,6 +1,6 @@
 # Implementing ASTBuilder
 
-It's time to levergae all of our components and hook them up to a custom java class. This is where we make use of the *ANTLR-generated* methods, which were based off of our grammar annotations from the [Grammar Update](ast-gen/grammar-update.md) page.
+It's time to levergae all of our components and hook them up to a custom java class. This is where we make use of the *ANTLR-generated* methods, which were based off of our grammar annotations from the [Grammar Update](grammar-update.md) page.
 
 ## Visit File
 

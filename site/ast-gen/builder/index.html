@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Dezső-Dániel Bartha" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>AST Builder - Front End Transpiler Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "AST Builder";
+        var mkdocs_page_input_path = "ast-gen/builder.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Front End Transpiler Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Grammar Design</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-init/">Design Initiation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-refine/">Refining the Grammar</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Parsing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/antlr-setup/">ANTLR4 Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/dfm-parsing/">DFM Code Parsing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/trees/">Parse Trees in ANTLR</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/features/">Additional Features</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Abstract Syntax Tree Generation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Parse Trees vs. Abstract Syntax Trees</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grammar-update/">Grammar Update</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Parser Re-Generation and Visitor Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Implementation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../ast-composition/">AST Composition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../node-spec/">Property and Component Classifications</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">AST Builder</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#visit-file">Visit File</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-blocks">Visit Blocks</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-sub-property">Visit Sub-property</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-string-value">Visit String Value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-value-alternatives">Visit Value Alternatives</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-collection-items">Visit Collection Items</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visit-parentheses-list">Visit Parentheses List</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#conclusion">Conclusion</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../wire-up/">Wiring Up to Main</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../clean-and-gen/">Cleanup and Generate</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Transformation Rules</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../transform-rules/">Introduction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Front End Transpiler Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Abstract Syntax Tree Generation</li>
+          <li class="breadcrumb-item">Implementation</li>
+      <li class="breadcrumb-item active">AST Builder</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="implementing-astbuilder">Implementing ASTBuilder</h1>
+<p>It's time to levergae all of our components and hook them up to a custom java class. This is where we make use of the <em>ANTLR-generated</em> methods, which were based off of our grammar annotations from the <a href="ast-gen/grammar-update.md">Grammar Update</a> page.</p>
+<h2 id="visit-file">Visit File</h2>
+<p>We create an <code>ASTBuilder</code> java class which extends the generated <code>DelphiDFMBaseVisitor</code>:</p>
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.List;
+
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    @Override
+    public Object visitFile(DelphiDFMParser.FileContext ctx) {
+        List&lt;ComponentNode&gt; roots = new ArrayList&lt;&gt;();
+        for (var block : ctx.block()) {
+            roots.add((ComponentNode) visit(block));
+        }
+        return roots;
+    }
+
+    ...
+
+}
+</code></pre>
+<p>We visit each <code>block</code> token, and append them to a list of type <code>ComponentNode</code>.</p>
+<h2 id="visit-blocks">Visit Blocks</h2>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitBeginBlock(DelphiDFMParser.BeginBlockContext ctx) {
+        ComponentNode node = new ComponentNode();
+
+        node.keyword = ctx.getChild(0).getText(); 
+        node.name = ctx.ID(0).getText(); 
+        node.typeName = ctx.ID(1).getText();
+        node.role = ComponentClassifier.classify(node.typeName);
+
+        for (var propB : ctx.propertyBlock()) {
+            Object result = visit(propB);
+            if (result instanceof PropertyNode prop) {
+                node.properties.add(prop);
+            }
+        }
+
+        for (var child : ctx.block()) {
+            node.children.add((ComponentNode) visit(child));
+        }
+
+        return node;
+    }
+
+    ...
+
+}
+</code></pre>
+<p>We start by instantiating a <code>ComponentNode</code>, and assign the consumed tokens to each object.</p>
+<p>Then, we visit each property block, check if it's of type <code>PropertyNode</code>, and append to the end of the list. We also loop through nested children, and append the visited children to <code>ComponentNode</code>. Then finally, we return everything.</p>
+<h2 id="visit-sub-property">Visit Sub-property</h2>
+<p>We tackle sub-properties by instantiating a <code>PropertyNode</code> object, and assigning the consumed tokens based on what is expected.</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitSubProperty(DelphiDFMParser.SubPropertyContext ctx) {
+        PropertyNode node = new PropertyNode();
+        node.name = ctx.SUBPROPERTY().getText();
+        node.value = visit(ctx.value());
+        node.category = PropertyClassifier.classify(node.name);
+        return node;
+    }
+
+    ...
+
+}
+</code></pre>
+<h2 id="visit-string-value">Visit String Value</h2>
+<p>This approach is similar to the previous one, with the exception that it focuses on strings.</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitValueProperty(DelphiDFMParser.ValuePropertyContext ctx) {
+        PropertyNode node = new PropertyNode();
+        node.name = ctx.ID().getText();
+        node.value = visit(ctx.value());
+        node.category = PropertyClassifier.classify(node.name);
+        return node;
+    }
+
+    ...
+
+}
+</code></pre>
+<h2 id="visit-value-alternatives">Visit Value Alternatives</h2>
+<p>Now we go through our <code>DfmValue</code> types and get their contents:</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitStringLiteralValue(DelphiDFMParser.StringLiteralValueContext ctx) {
+        String raw = ctx.STRING().getText();
+        // single quotes re-printed in DfmValue
+        return new DfmValue(DfmValue.Type.STRING, raw.substring(1, raw.length() - 1));
+    }
+
+    @Override
+    public Object visitIntValue(DelphiDFMParser.IntValueContext ctx) {
+        return new DfmValue(DfmValue.Type.INTEGER, Integer.parseInt(ctx.INT().getText()));
+    }
+
+    ...
+
+}
+</code></pre>
+<h2 id="visit-collection-items">Visit Collection Items</h2>
+<p>First, we get the collection item structure. Tracing back to the parser, the <code>CollectionItemValueContext</code> returns our <code>collectionItem</code> rule:</p>
+<pre><code class="language-yaml">collectionItems  : '&lt;' item* '&gt;' ;
+item             : 'item' propertyBlock* 'end' ;
+</code></pre>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitCollectionItemValue(DelphiDFMParser.CollectionItemValueContext ctx) {
+        return visit(ctx.collectionItems());
+    }
+
+    ...
+
+}
+</code></pre>
+<p>Then, we visit the item declarations themselves, and append them to a <code>PropertyNode</code> matrix from our <code>ItemListNode</code>:</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitCollectionItems(DelphiDFMParser.CollectionItemsContext ctx) {
+        ItemListNode node = new ItemListNode();
+        for (var item : ctx.item()) {
+            node.items.add((List&lt;PropertyNode&gt;) visit(item));
+        }
+        return node;
+    }
+
+    ...
+
+}
+</code></pre>
+<p>Finally, we go through each item property and append them as <code>PropertyNode</code> to a list:</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitItem(DelphiDFMParser.ItemContext ctx) {
+        List&lt;PropertyNode&gt; props = new ArrayList&lt;&gt;();
+        for (var propB : ctx.propertyBlock()) {
+            Object result = visit(propB);
+            if (result instanceof PropertyNode p) {
+                props.add(p);
+            }
+        }
+        return props;
+    }
+
+    ...
+
+}
+</code></pre>
+<h2 id="visit-parentheses-list">Visit Parentheses List</h2>
+<p>The last step is to tackle our <code>parenList</code> rule.</p>
+<pre><code class="language-yaml">parenList : '(' (INT | FLOAT | STRING)* ')' ;
+</code></pre>
+<p>We start by visiting the <code>parenList</code> context:</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitParenListValue(DelphiDFMParser.ParenListValueContext ctx) {
+        return visit(ctx.parenList());
+    }
+
+    ...
+
+}
+</code></pre>
+<p>Then, we collect the scalar values inside parentheses. We use <code>ctx.children</code> to retain the order of values, otherwise they would be mixed during token output. Afterwards, we implement a couple of checks, to determine the value type, based on the token type, using <code>DfmValue</code>.</p>
+<pre><code class="language-java">public class ASTBuilder extends DelphiDFMBaseVisitor&lt;Object&gt; {
+
+    ...
+
+    @Override
+    public Object visitParenList(DelphiDFMParser.ParenListContext ctx) {
+        List&lt;DfmValue&gt; values = new ArrayList&lt;&gt;();
+        for (var child : ctx.children) {
+            String text = child.getText();
+            if (text.equals(&quot;(&quot;) || text.equals(&quot;)&quot;))
+                continue;
+            if (child instanceof TerminalNode tn) {
+                int tokenType = tn.getSymbol().getType();
+                if (tokenType == DelphiDFMParser.INT) {
+                    values.add(new DfmValue(DfmValue.Type.INTEGER, Integer.parseInt(text)));
+                } else if (tokenType == DelphiDFMParser.FLOAT) {
+                    values.add(new DfmValue(DfmValue.Type.FLOAT, Double.parseDouble(text)));
+                } else if (tokenType == DelphiDFMParser.STRING) {
+                    values.add(new DfmValue(DfmValue.Type.STRING, text.substring(1, text.length() - 1)));
+                }
+            }
+        }
+        return new DfmValue(DfmValue.Type.PAREN_LIST, values);
+    }
+}
+</code></pre>
+<h3 id="conclusion">Conclusion</h3>
+<p>Now we have everything in place to wire it all up to a <code>Main</code> class, and generate our <em>AST</em>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../node-spec/" class="btn btn-neutral float-left" title="Property and Component Classifications"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../wire-up/" class="btn btn-neutral float-right" title="Wiring Up to Main">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p><h3><i>Copyright 2026 Estrategy© All Rights Reserved</i></h3></p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../node-spec/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../wire-up/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

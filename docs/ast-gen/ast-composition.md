@@ -17,7 +17,7 @@ block            : ('inherited' | 'object' | 'inline') ID ':' ID propertyBlock* 
                  ;
 ```
 
-We know that our DFMs are composed of `block`s, which themselves are composed of keywords, strings, potential children as `propertyBlocks` (which hold the same structure), or other nested `block`s. Thus, we define three public strings: `keyword`, `name`, and `type`. We complement these with the addition of `role`, which is of type `ComponentRoleEnum` (more on that in the next page: [AST Node Classification](ast-gen/node-spec.md)).
+We know that our DFMs are composed of `block`s, which themselves are composed of keywords, strings, potential children as `propertyBlocks` (which hold the same structure), or other nested `block`s. Thus, we define three public strings: `keyword`, `name`, and `type`. We complement these with the addition of `role`, which is of type `ComponentRoleEnum` (more on that in the next page: [AST Node Classification](node-spec.md)).
 
 Next, to account for nested blocks and property blocks, we instantiate lists of both:
 
@@ -40,7 +40,7 @@ propertyBlock    : SUBPROPERTY '=' value        # subProperty
 
 This one is also fairly simple. Our properties can be one of two choices: either an `ID` token (meaning String), or a `SUBPROPERTY` token (meaning Strings concatenated with dots '.').
 
-Therefore, we create a name for properties, and a value object. Just like we did with `ComponentNode`, we supplement property nodes with classifications as well, through the inclusion of `PropertyCategoryEnum` (similarily we discuss these on the following page, [AST Node Classification](ast-gen/node-spec.md)).
+Therefore, we create a name for properties, and a value object. Just like we did with `ComponentNode`, we supplement property nodes with classifications as well, through the inclusion of `PropertyCategoryEnum` (similarily we discuss these on the following page, [AST Node Classification](node-spec.md)).
 
 ```java
 public String name;    

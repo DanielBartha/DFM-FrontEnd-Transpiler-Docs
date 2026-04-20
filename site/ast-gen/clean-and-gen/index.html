@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Dezső-Dániel Bartha" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>AST Builder - Front End Transpiler Documentation</title>
+    <title>Cleanup and Generate - Front End Transpiler Documentation</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "AST Builder";
-        var mkdocs_page_input_path = "ast-gen/ast-build.md";
+        var mkdocs_page_name = "Cleanup and Generate";
+        var mkdocs_page_input_path = "ast-gen/clean-and-gen.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -76,12 +76,22 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../grammar-update/">Grammar Update</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Generation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Parser Re-Generation and Visitor Overview</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" >Development</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Implementation</a>
     <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">AST Builder</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ast-composition/">AST Composition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../node-spec/">Property and Component Classifications</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../builder/">AST Builder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../wire-up/">Wiring Up to Main</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Cleanup and Generate</a>
     <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a>
+    </li>
     </ul>
                 </li>
     </ul>
@@ -107,8 +117,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Abstract Syntax Tree Generation</li>
-          <li class="breadcrumb-item">Development</li>
-      <li class="breadcrumb-item active">AST Builder</li>
+          <li class="breadcrumb-item">Implementation</li>
+      <li class="breadcrumb-item active">Cleanup and Generate</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -117,12 +127,98 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="astbuilder">ASTBuilder</h1>
+                <h1 id="final-cleanup-and-generation">Final Cleanup and Generation</h1>
+<p>Now that we finished our implementation, we'll need to re-compile all our java files. </p>
+<p><strong>IMPORTANT:</strong> make sure you save all your custom java files in a separate directory first !</p>
+<p>After all is saved, we clean up potentially stale files:</p>
+<ol>
+<li>Remove potentially stale files</li>
+</ol>
+<pre><code>rm *.java *.class *.tokens *.interp
+</code></pre>
+<ol>
+<li>
+<p>Copy and paste your custom java files back to root</p>
+</li>
+<li>
+<p>Re-generate the parser with the visitor command</p>
+</li>
+</ol>
+<pre><code>antlr4 DelphiDFM.g4 -visitor
+</code></pre>
+<ol>
+<li>Compile everything</li>
+</ol>
+<pre><code>javac *.java
+</code></pre>
+<ol>
+<li>Run java on Main and see the magic unfold</li>
+</ol>
+<pre><code>java Main DFMs/test.dfm
+</code></pre>
+<p>Let's examine the fruits of our labor:</p>
+<p><code>../Generated-ASTs/testAST.dfm</code></p>
+<pre><code class="language-yaml">[ROOT | inherited | VISUAL_CONTAINER] frmActions : TfrmActions
+ [CONFIG] Tag = 3
+ [VISUAL] Caption = 'hello'
+  [inherited | VISUAL_CONTAINER] pnlTitle : TfrmTitleBar
+   [VISUAL] Color = clWhite
+   [VISUAL] ParentBackground = False
+  [inherited | VISUAL_CONTAINER] pnlError : TfrmError
+    [inherited | VISUAL_CONTROL] lblMessage : TcxLabel
+     [LAYOUT] AnchorY = -18
+     [CONFIG] FloatAnchorY = 18.7283
+  [object | VISUAL_CONTROL] gvListUser : TcxGridDBColumn
+   [VISUAL] Caption = 'Test'
+   [DATA_BINDING] DataBinding.FieldName = 'TestUser'
+   [CONFIG_NAMESPACED] Properties.ListColumns = ItemList{
+  item[0]:
+    [CONFIG] FieldName = 'fullName'
+    [CONFIG] Fixed = True
+    [LAYOUT] Width = 100
+}
+   [CONFIG_NAMESPACED] Properties.Alignment.Vert = taVCencter
+   [LAYOUT] Height = 20
+   [CONFIG_NAMESPACED] Properties.DateButtons = [btnToday]
+  [object | null] testItemHchy : TestItemHchy
+   [CONFIG_NAMESPACED] Properties.ListColumns = ItemList{
+  item[0]:
+    [CONFIG] Fixed = True
+    [LAYOUT] Width = 80
+  item[1]:
+    [LAYOUT] Width = 200
+    [CONFIG] FieldName = 'testing'
+}
+   [LAYOUT] Width = 282
+  [inherited | null] testFields : TestFields
+   [CONFIG] Indexes = ItemList{
+}
+   [CONFIG] SortOptions = []
+   [CONFIG] OtherSortOptions = [test1, test2, test3]
+  [inherited | null] testMultipleInheritance : TestMultipleInheritance
+    [inherited | null] inhOne : InhOne
+      [inherited | null] inhTwo : InhTwo
+        [inherited | null] inhThree : InhThree
+          [object | null] deepObj : DeepObj
+           [LAYOUT] Height = 10
+           [LAYOUT] Width = 20
+           [LAYOUT] Top = 30
+</code></pre>
+<p>We successfully generated an <em>Abstract Syntax Tree</em> from our <code>test.dfm</code> file.</p>
+<ul>
+<li>we have our root component distinctly specified</li>
+<li>components have the their correct roles assigned</li>
+<li>property categories correctly appear</li>
+<li>we have our collection item lists and their properties</li>
+<li>some roles and categories are <code>null</code>, since the pseudo-code examples haven't been classified in <code>PropertyCategory</code> and <code>ComponentRole</code></li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Now we have successfully paved the way to designing the transformation rules for the transpiler's next component.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../generation/" class="btn btn-neutral float-left" title="Generation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../wire-up/" class="btn btn-neutral float-left" title="Wiring Up to Main"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../../transform-rules/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -147,7 +243,7 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../generation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../wire-up/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../../transform-rules/" style="color: #fcfcfc">Next &raquo;</a></span>
