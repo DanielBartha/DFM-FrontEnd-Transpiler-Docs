@@ -86,11 +86,19 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="grammar-update/">Grammar Update</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="generation/">Generation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="generation/">Parser Re-Generation and Visitor Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Development</a>
+                  <li class="toctree-l1"><a class="reference internal" >Implementation</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="ast-build/">AST Builder</a>
+                <li class="toctree-l2"><a class="reference internal" href="ast-composition/">AST Composition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="node-spec/">Property and Component Classifications</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="builder/">AST Builder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="wire-up/">Wiring Up to Main</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="clean-and-gen/">Cleanup and Generate</a>
                 </li>
     </ul>
                   </li>
@@ -154,7 +162,7 @@
 </ul>
 <h3 id="conclusion">Conclusion</h3>
 <p>Now we can conclude that the most suitable choice will be an Abstract Syntax Tree. A Parse Tree would simply hold too much redundant information which we would need to check and determine whether to discard or keep. Obviously that isn't very efficient.</p>
-<p>The following sections in this chapter will walk you through the process of generating the first iteration of an <em>AST</em>.</p>
+<p>The following sections in this chapter will walk you through the process of generating the first iteration of an <em>Abstract Syntax Tree</em>.</p>
               
             </div>
           </div><footer>

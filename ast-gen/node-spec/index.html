@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Dezső-Dániel Bartha" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Property and Component Classifications - Front End Transpiler Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Property and Component Classifications";
+        var mkdocs_page_input_path = "ast-gen/node-spec.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Front End Transpiler Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Grammar Design</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-init/">Design Initiation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-comments-whitespace/">Matching Comments and Whitespace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-floats/">Matching Floating-Point Numbers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grammar-creation/gd-refine/">Refining the Grammar</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Parsing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/antlr-setup/">ANTLR4 Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/dfm-parsing/">DFM Code Parsing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/trees/">Parse Trees in ANTLR</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../parsing/features/">Additional Features</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Abstract Syntax Tree Generation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Parse Trees vs. Abstract Syntax Trees</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grammar-update/">Grammar Update</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Parser Re-Generation and Visitor Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Implementation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../ast-composition/">AST Composition</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Property and Component Classifications</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#property-categories">Property Categories</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#property-classifier">Property Classifier</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#component-role-categories">Component Role Categories</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#component-role-classifier">Component Role Classifier</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../builder/">AST Builder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../wire-up/">Wiring Up to Main</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../clean-and-gen/">Cleanup and Generate</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Transformation Rules</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../transform-rules/">Introduction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Front End Transpiler Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Abstract Syntax Tree Generation</li>
+          <li class="breadcrumb-item">Implementation</li>
+      <li class="breadcrumb-item active">Property and Component Classifications</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="property-and-component-classifications">Property and Component Classifications</h1>
+<p>The last pre-emptive step before hooking up everything to <code>ASTBuilder</code> and <code>Main</code>, will be to classify properties and components for our <em>AST</em> nodes. By having a more detailed array of notations, we'll be able to formulate transformation rules more easily.</p>
+<h2 id="property-categories">Property Categories</h2>
+<p>The following 8 node categories have been defined for properties:</p>
+<p><code>PropertyCategoryEnum.java</code></p>
+<pre><code class="language-java">public enum PropertyCategoryEnum {
+    LAYOUT,
+    VISUAL,
+    CONFIG,
+    CONFIG_NAMESPACED,
+    DATA_BINDING,
+    EVENT,
+    REFERENCE,
+    SKIP
+}
+</code></pre>
+<p><strong>LAYOUT</strong> properties are self-explanatory. They control visual sizing and positions. In React, they should map directly to CSS style objects.
+Examples of this category include: <code>Left</code>, <code>Top</code>, <code>Width</code>, <code>MinSize</code>.</p>
+<p>The <strong>VISUAL</strong> category refers to <em>how</em> a component looks, but not its position. In React, they should map to CSS styling or component props.
+Some examples include: <code>Color</code>, <code>ParentColor</code>, <code>Transparent</code>, <code>Caption</code>. </p>
+<p><strong>CONFIG</strong> is the largest category by far. This category represents properties which configure how a component behaves at runtime, but do not affect layout or appearance. The typical transition to React would be as component props. Some examples are: <code>TabOrder</code>, <code>AutoSize</code>, <code>SortOrder</code>, <code>FieldName</code>.</p>
+<p><strong>CONFIG_NAMESPACED</strong> properties are configurations scoped under a sub-object. Syntactically, they fall under our grammar's <code>SUBPROPERTY</code> rule. Semantically, they are still configuration but grouped. Examples: <code>Options.Filtering</code>, <code>OptionsData.Editing</code>, <code>Properties.Alignment.Vert</code>.</p>
+<p>The <strong>DATA_BINDING</strong> category refers to connections between a UI component and a data source. These have direct implications for React state management. Examples include: <code>DataBinding.FieldName</code>, <code>DataController.DataSource</code>, <code>DataSet</code>.</p>
+<p>The <strong>EVENT</strong> category refers to component that wire up user interactions or lifecycle events to Object Pascal methods. In React, they will become callback props or handler functions. Some examples are: <code>OnClick</code>, <code>OnChange</code>, <code>BeforePost</code>.</p>
+<p>The <strong>REFERENCE</strong> category encompasses components which point to other components, either within the same file or in an external module. Some examples include: <code>Control = pnlEntry</code>, <code>GridView = gvList</code>, <code>Action = frmMain.aiAdd</code>. </p>
+<p>Finally, the <strong>SKIP</strong> category encompasses design-time properties which are irrelevant to web, as such they will be skipped during transformation. An example of this property is <code>PixelsPerInch</code>.</p>
+<h3 id="property-classifier">Property Classifier</h3>
+<p>The <code>PropertyClassifier</code> makes use of the categories we defined above, to assign the proper notations.</p>
+<p>Since the <strong>CONFIG</strong> category is very large (when accounting for the full legacy codebase), the most suitable solution is to combine a fallback logic with hash maps. We start out with instantiating the map, and diving into the fallback logic right away:</p>
+<pre><code class="language-java">public class PropertyClassifier {
+    private static final Map&lt;String, PropertyCategoryEnum&gt; PROPERTY_MAP = new HashMap&lt;&gt;();
+
+    public static PropertyCategoryEnum classify(String propertyName) {
+        if (propertyName.startsWith(&quot;On&quot;) 
+            || propertyName.startsWith(&quot;Before&quot;) 
+            || propertyName.startsWith(&quot;After&quot;)) {
+            return PropertyCategoryEnum.EVENT;
+        }
+
+        PropertyCategoryEnum category = PROPERTY_MAP.get(propertyName);
+        if (category != null) {
+            return category;
+        }
+
+        if (propertyName.contains(&quot;.&quot;)) {
+            return classifyNamespaced(propertyName);
+        }
+
+        return PropertyCategoryEnum.CONFIG;
+    }
+
+    ...
+
+}
+</code></pre>
+<p>We tackle events first, based on the keywords <code>On</code>, <code>Before</code> and <code>After</code>. We make sure to return the category, and also account for namespaced properties (more on that soon). Finally, we if all else fails, we fall back to <strong>CONFIG</strong>.</p>
+<p>Continuing, with namespaced properties:</p>
+<pre><code class="language-java">public class PropertyClassifier {
+    private static final Map&lt;String, PropertyCategoryEnum&gt; PROPERTY_MAP = new HashMap&lt;&gt;();
+
+    ...
+
+    private static PropertyCategoryEnum classifyNamespaced(String propertyName) {
+        PropertyCategoryEnum category = PROPERTY_MAP.get(propertyName);
+        if (category != null) {
+            return category;
+        }
+
+        String lastSegment = propertyName.substring(propertyName.lastIndexOf('.') + 1);
+        if (lastSegment.startsWith(&quot;On&quot;) 
+            || lastSegment.startsWith(&quot;Before&quot;) 
+            || lastSegment.startsWith(&quot;After&quot;)) {
+            return PropertyCategoryEnum.EVENT;
+        }
+
+        if (propertyName.startsWith(&quot;DataBinding.&quot;) 
+            || propertyName.equals(&quot;DataController.DataSource&quot;)) {
+            return PropertyCategoryEnum.DATA_BINDING;
+        }
+
+        return PropertyCategoryEnum.CONFIG_NAMESPACED;
+    }
+
+    ...
+
+}
+</code></pre>
+<p>After returning the category, we make sure to account for namespaced events as well (for instance: <code>Styles.OnGetContentStyle</code>). Then we tackle data binding properties, and fall back to base <strong>CONFIG_NAMESPACED</strong>.</p>
+<p>Our last step is to insert all other outlying values in our hash map:</p>
+<pre><code class="language-java">public class PropertyClassifier {
+    private static final Map&lt;String, PropertyCategoryEnum&gt; PROPERTY_MAP = new HashMap&lt;&gt;();
+
+    ...
+
+    static {
+        // Layout Properties
+        PROPERTY_MAP.put(&quot;Left&quot;, PropertyCategoryEnum.LAYOUT);
+        PROPERTY_MAP.put(&quot;Top&quot;, PropertyCategoryEnum.LAYOUT);
+        PROPERTY_MAP.put(&quot;Width&quot;, PropertyCategoryEnum.LAYOUT);
+        ...
+
+        // Visual Properties
+        PROPERTY_MAP.put(&quot;Color&quot;, PropertyCategoryEnum.VISUAL);
+        PROPERTY_MAP.put(&quot;ParentColor&quot;, PropertyCategoryEnum.VISUAL);
+        PROPERTY_MAP.put(&quot;ParentBackground&quot;, PropertyCategoryEnum.VISUAL);
+        ...
+
+        // Cross Component Refs
+        PROPERTY_MAP.put(&quot;FocusControl&quot;, PropertyCategoryEnum.REFERENCE);
+        PROPERTY_MAP.put(&quot;PopupMenu&quot;, PropertyCategoryEnum.REFERENCE);
+        PROPERTY_MAP.put(&quot;Control&quot;, PropertyCategoryEnum.REFERENCE);
+        ...
+
+        // Data Binding
+        PROPERTY_MAP.put(&quot;DataSet&quot;, PropertyCategoryEnum.DATA_BINDING);
+
+        // Skip, irrelevant to web
+        PROPERTY_MAP.put(&quot;PixelsPerInch&quot;, PropertyCategoryEnum.SKIP);
+    }
+}
+</code></pre>
+<p><strong>Note</strong> the outlying data binding property <code>DataSet</code>.</p>
+<p>Now, we fully covered property classification, and we are ready to move on to component roles.</p>
+<h2 id="component-role-categories">Component Role Categories</h2>
+<p>This classification is used as a helper containerization of properties within DFM objects. By specifying the roles of components, we'll be able to further streamline the design of transformation rules. It is considered a necessary addition, which highlights an important nuance of certain DFM components: the same property can mean different things on different component types. </p>
+<p>For instance, <code>Background</code> under a <code>TfrxPDFExport</code> object is <strong>CONFIG</strong>, as it's a boolean flag for PDF generation, not <strong>VISUAL</strong>. However, <code>Background</code> under <code>TfrxHTMLExport</code> is also <strong>CONFIG</strong>. Neither produces visual output. Consequently, <code>Background</code> will be classified under <strong>CONFIG</strong> everywhere else as well, but if it appears under a <em>visual</em> component, it might be evaluated as <strong>VISUAL</strong>.</p>
+<p>The following 5 categories have been defined as component roles:</p>
+<p><code>ComponentRoleEnum.java</code></p>
+<pre><code class="language-java">public enum ComponentRoleEnum {
+    VISUAL_CONTAINER,
+    VISUAL_CONTROL,
+    DATA_FIELD,
+    NON_VISUAL_DATA,
+    NON_VISUAL_SERVICE
+}
+</code></pre>
+<p><strong>VISUAL_CONTAINER</strong> denotes components that contain visual properties. Note that the classification of roles is only a suggestive helper addition, as properties within <strong>VISUAL_CONTAINER</strong> components could classify under various other property categories. Examples of such roles include: <code>TPanel</code>, <code>TcxGrid</code>, <code>TfrmActions</code>.</p>
+<p><strong>VISUAL_CONTROL</strong> roles refer to leaf UI components that the user directly interacts with or observes. These components do not primarily serve as containers for other components, but rather represent individual interface elements such as buttons, labels, input fields, and grid columns. For instance:</p>
+<pre><code class="language-yaml">inherited pnlEntry: TPanel
+    inherited psActionButton1: TcxButton
+      TabOrder = 7
+    end
+end
+</code></pre>
+<p>Could be labeled the following way in our generated <em>AST</em>:</p>
+<pre><code class="language-yaml">[inherited | VISUAL_CONTAINER] pnlEntry : TPanel
+    [inherited | VISUAL_CONTROL] psActionButton1 : TcxButton
+     [CONFIG] TabOrder = 7
+</code></pre>
+<p>The <strong>DATA_FIELD</strong> role specifies field definitions within data components. These are children of <strong>NON_VISUAL_DATA</strong> components such as <code>TdxMemData</code>, and define the shape of the data structure.</p>
+<pre><code class="language-yaml">inherited mdList: TdxMemData
+    object mdListInternalID: TIntegerField
+      FieldName = 'InternalID'
+    end
+</code></pre>
+<p>Would become...</p>
+<pre><code class="language-yaml">[inherited | NON_VISUAL_DATA] mdList : TdxMemData
+    [object | DATA_FIELD] mdListInternalID : TIntegerField
+     [CONFIG] FieldName = 'InternalID'
+</code></pre>
+<p>While <strong>NON_VISUAL_DATA</strong> is a self-explanatory rule, we shall briefly elaborate the final component role category: <strong>NON_VISUAL_SERVICE</strong>. This role denotes objects whose functionality cannot, or should not be transpiled to React. These mostly include features such as report/document generation, usually hailing from <code>Tfrx</code> type objects. These types of object <em>will</em> be transpiled, but only for the purpose of conveying information to developers, as some of these could hold relevant data, helpful to developers during the modernization process. The transpiled versions of these objects will not be functional, but they will inform developers on stylistic choices, contained custom information, and placement within architecture.</p>
+<h3 id="component-role-classifier">Component Role Classifier</h3>
+<p>The <code>ComponentClassifier</code> is more straightforward. The approach is similar, we create a hash map and insert our various component roles, based on our previously defined categories:</p>
+<pre><code class="language-java">public class ComponentClassifier {
+    private static final Map&lt;String, ComponentRoleEnum&gt; ROLE_MAP = new HashMap&lt;&gt;();
+
+    static {
+        // Visual Containers
+        ROLE_MAP.put(&quot;TPanel&quot;, ComponentRoleEnum.VISUAL_CONTAINER);
+        ROLE_MAP.put(&quot;TcxGrid&quot;, ComponentRoleEnum.VISUAL_CONTAINER);
+        ...
+
+        // Visual Controls
+        ROLE_MAP.put(&quot;TcxButton&quot;, ComponentRoleEnum.VISUAL_CONTROL);
+        ROLE_MAP.put(&quot;TcxLabel&quot;, ComponentRoleEnum.VISUAL_CONTROL);
+        ROLE_MAP.put(&quot;TcxDBMemo&quot;, ComponentRoleEnum.VISUAL_CONTROL);
+        ...
+
+        // Data Fields
+        ROLE_MAP.put(&quot;TIntegerField&quot;, ComponentRoleEnum.DATA_FIELD);
+        ROLE_MAP.put(&quot;TStringField&quot;, ComponentRoleEnum.DATA_FIELD);
+        ROLE_MAP.put(&quot;TDateField&quot;, ComponentRoleEnum.DATA_FIELD);
+        ...
+
+        // Non-Visual Data
+        ROLE_MAP.put(&quot;TDataSource&quot;, ComponentRoleEnum.NON_VISUAL_DATA);
+        ROLE_MAP.put(&quot;TdxMemData&quot;, ComponentRoleEnum.NON_VISUAL_DATA);
+
+        // Non-Visual Service
+        ROLE_MAP.put(&quot;TfrxReport&quot;, ComponentRoleEnum.NON_VISUAL_SERVICE);
+        ROLE_MAP.put(&quot;TfrxPDFExport&quot;, ComponentRoleEnum.NON_VISUAL_SERVICE);
+        ROLE_MAP.put(&quot;TfrxCSVExport&quot;, ComponentRoleEnum.NON_VISUAL_SERVICE);
+        ...
+    }
+
+    public static ComponentRoleEnum classify(String typeName) {
+        return ROLE_MAP.get(typeName);
+    }
+}
+</code></pre>
+<p>At the end we return the component type name, so that we can hook it up to our <code>ASTBuilder</code>.</p>
+<h4 id="conclusion">Conclusion</h4>
+<p>Now we are ready to move into the final two steps of <em>AST</em> generation, by hooking up everything to an <code>ASTBuilder</code> class and implementing <em>ANTLR's</em> visitor pattern when processing our target DFM files.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ast-composition/" class="btn btn-neutral float-left" title="AST Composition"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../builder/" class="btn btn-neutral float-right" title="AST Builder">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p><h3><i>Copyright 2026 Estrategy© All Rights Reserved</i></h3></p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../ast-composition/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../builder/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

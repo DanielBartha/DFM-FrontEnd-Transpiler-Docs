@@ -78,11 +78,19 @@
     <ul class="current">
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Generation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../generation/">Parser Re-Generation and Visitor Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Development</a>
+                  <li class="toctree-l1"><a class="reference internal" >Implementation</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../ast-build/">AST Builder</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ast-composition/">AST Composition</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../node-spec/">Property and Component Classifications</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../builder/">AST Builder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../wire-up/">Wiring Up to Main</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../clean-and-gen/">Cleanup and Generate</a>
                 </li>
     </ul>
                   </li>
@@ -180,13 +188,13 @@ WS               : [ \t\r\n]+ -&gt; skip ;
 <p>First, we included the <code>parenList</code> rule, to account for properties such as <code>DesignSize = (100 \n 200)</code>, where certain values can be included between parentheses, only separated by newlines.</p>
 <p>The second addition, was the inclusion of our <code>SUBPROPERTY</code> rule as a value. The rationale behind it, is that certain values can be assigned to properties within DFM files. For instance, <code>OptionsImage.Images = dmMain.ilNormal24x24</code>.</p>
 <h3 id="annotations">Annotations</h3>
-<p>This is the big one. <em>ANTLR</em> allows including values such as our <code># beginBlock</code> within the grammar. These values are called annotations, and they tell <em>ANTLR</em> to create methods with the specified names, when generating the parser. These annotations represent the core of our <em>AST</em> generator, as we will override them to generate <em>ASTs</em>. In the next section we'll see what happened when we regenerated the parser and delve into the <em>AST</em> generation.</p>
+<p>This is the big one. <em>ANTLR</em> allows including values such as our <code># beginBlock</code> within the grammar. These values are called annotations, and they tell <em>ANTLR</em> to create methods with the specified names, when generating the parser. These annotations represent the core of our <em>AST</em> generator, as we will override the methods generated for them, to generate <em>ASTs</em>. In the next section we'll see what happened when we regenerated the parser, and we'll delve into the <em>AST</em> generation development.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../" class="btn btn-neutral float-left" title="Parse Trees vs. Abstract Syntax Trees"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../generation/" class="btn btn-neutral float-right" title="Generation">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../generation/" class="btn btn-neutral float-right" title="Parser Re-Generation and Visitor Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
